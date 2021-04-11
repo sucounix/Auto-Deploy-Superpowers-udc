@@ -1,0 +1,41 @@
+
+- name: "update apt packages."
+  become: yes
+  apt:
+    update_cache: yes
+
+- name: "upgrade packages"
+  become: yes
+  apt:
+    upgrade: yes
+
+- name: remove dependencies that are no longer required
+  become: yes
+  apt:
+    autoremove: yes
+
+- name: "install dependencies."
+  become: yes
+  apt:
+    name: ["nodejs", "npm"]
+    state: latest
+    update_cache: yes
+
+- name: "install pm2"
+  become: yes
+  npm:
+    name: pm2
+    global: yes
+    production: yes
+    state: present
+
+- name: Configure environment variables
+  set_fact:
+    ENVIRONMENT: 'production'
+    TYPEORM_CONNECTION: 'postgres'
+    TYPEORM_ENTITIES: ''./src/modules/domain/**/*.entity.ts'
+    TYPEORM_HOST: 'udapeople.cq1slp0ljg3y.us-west-2.rds.amazonaws.com'
+    TYPEORM_PORT: '5432'
+    TYPEORM_USERNAME: 'postgres'
+    TYPEORM_PASSWORD: 'jWTGNm3TX2FFsS167bxJ'
+    TYPEORM_DATABASE: 'dapeople'

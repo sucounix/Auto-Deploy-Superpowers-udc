@@ -128,13 +128,10 @@ jobs:
      - image: amazon/aws-cli
     steps:
       - checkout
-      - restore_cache:
-          keys: [backend-build]
       - run:
           name: yum -y install tar gzip 
           command: |
             yum -y install tar gzip
-            ls  ~/project/backend/dist           
       - run:
           name: Ensure back-end infrastructure exists
           command: |
@@ -254,6 +251,14 @@ jobs:
            command: |
             apk add tar gzip
             apk add --update ansible
+      - run:
+          name: compile BE
+          command: |
+            echo ${CIRCLE_WORKFLOW_ID}
+            cd ~/project/backend
+            npm i --save
+            npm run build --save
+            ls dist
       - run:
            name: Deploy backend
            command: |

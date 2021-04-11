@@ -29,31 +29,43 @@
     production: yes
     state: present
 
-- name: "populate /etc/environment"
-  become: yes
-  lineinfile:
-    dest: "/etc/environment"
-    state: present
-    regexp: "^{{ item.key }}="
-    line: "{{ item.key }}={{ item.value}}"
-  with_items: "{{ os_environment }}"  
-    os_environment:
-    - key: ENVIRONMENT
-      value : production  
-    - key: TYPEORM_CONNECTION
-      value : postgres
-    - key: TYPEORM_ENTITIES
-      value : ./src/modules/domain/**/*.entity.ts  
-    - key: TYPEORM_HOST
-      value : udapeople.cq1slp0ljg3y.us-west-2.rds.amazonaws.com
-    - key: TYPEORM_PORT
-      value : 5432  
-    - key: TYPEORM_USERNAME
-      value : postgres   
-    - key: TYPEORM_PASSWORD
-      value : jWTGNm3TX2FFsS167bxJ  
-    - key: TYPEORM_DATABASE
-      value : dapeople         
+ - name: "populate /etc/environment"
+   become: yes
+   environment:
+      TYPEORM_CONNECTION: "{{ lookup('env','TYPEORM_CONNECTION') }}"
+      TYPEORM_HOST: "{{ lookup('env','TYPEORM_HOST') }}"
+      TYPEORM_USERNAME: "{{ lookup('env','TYPEORM_USERNAME') }}"
+      TYPEORM_PASSWORD: "{{ lookup('env','TYPEORM_PASSWORD') }}"
+      TYPEORM_DATABASE: "{{ lookup('env','TYPEORM_DATABASE') }}"
+      TYPEORM_MIGRATIONS: "{{ lookup('env','TYPEORM_MIGRATIONS') }}"
+      TYPEORM_ENTITIES: "{{ lookup('env','TYPEORM_ENTITIES') }}"
+
+
+
+
+#   lineinfile:
+#     dest: "/etc/environment"
+#     state: present
+#     regexp: "^{{ item.key }}="
+#     line: "{{ item.key }}={{ item.value}}"
+#   with_items: "{{ os_environment }}"  
+#     os_environment:
+#     - key: ENVIRONMENT
+#       value : production  
+#     - key: TYPEORM_CONNECTION
+#       value : postgres
+#     - key: TYPEORM_ENTITIES
+#       value : ./src/modules/domain/**/*.entity.ts  
+#     - key: TYPEORM_HOST
+#       value : udapeople.cq1slp0ljg3y.us-west-2.rds.amazonaws.com
+#     - key: TYPEORM_PORT
+#       value : 5432  
+#     - key: TYPEORM_USERNAME
+#       value : postgres   
+#     - key: TYPEORM_PASSWORD
+#       value : jWTGNm3TX2FFsS167bxJ  
+#     - key: TYPEORM_DATABASE
+#       value : dapeople         
 
 # - name: Configure environment variables
 #   set_fact:

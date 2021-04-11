@@ -29,13 +29,39 @@
     production: yes
     state: present
 
-- name: Configure environment variables
-  set_fact:
-    ENVIRONMENT: 'production'
-    TYPEORM_CONNECTION: 'postgres'
-    TYPEORM_ENTITIES: './src/modules/domain/**/*.entity.ts'
-    TYPEORM_HOST: 'udapeople.cq1slp0ljg3y.us-west-2.rds.amazonaws.com'
-    TYPEORM_PORT: '5432'
-    TYPEORM_USERNAME: 'postgres'
-    TYPEORM_PASSWORD: 'jWTGNm3TX2FFsS167bxJ'
-    TYPEORM_DATABASE: 'dapeople'
+- name: populate /etc/environment
+  lineinfile:
+    dest: "/etc/environment"
+    state: present
+    regexp: "^{{ item.key }}="
+    line: "{{ item.key }}={{ item.value}}"
+  with_items: "{{ os_environment }}"  
+
+  os_environment:
+  - key: ENVIRONMENT
+    value : production  
+  - key: TYPEORM_CONNECTION
+    value : postgres
+  - key: TYPEORM_ENTITIES
+    value : ./src/modules/domain/**/*.entity.ts  
+  - key: TYPEORM_HOST
+    value : udapeople.cq1slp0ljg3y.us-west-2.rds.amazonaws.com
+  - key: TYPEORM_PORT
+    value : 5432  
+  - key: TYPEORM_USERNAME
+    value : postgres   
+  - key: TYPEORM_PASSWORD
+    value : jWTGNm3TX2FFsS167bxJ  
+  - key: TYPEORM_DATABASE
+    value : dapeople         
+
+# - name: Configure environment variables
+#   set_fact:
+#     ENVIRONMENT: 'production'
+#     TYPEORM_CONNECTION: 'postgres'
+#     TYPEORM_ENTITIES: './src/modules/domain/**/*.entity.ts'
+#     TYPEORM_HOST: 'udapeople.cq1slp0ljg3y.us-west-2.rds.amazonaws.com'
+#     TYPEORM_PORT: '5432'
+#     TYPEORM_USERNAME: 'postgres'
+#     TYPEORM_PASSWORD: 'jWTGNm3TX2FFsS167bxJ'
+#     TYPEORM_DATABASE: 'dapeople'

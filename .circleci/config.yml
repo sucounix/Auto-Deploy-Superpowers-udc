@@ -189,42 +189,52 @@ jobs:
 #             exit 1
 #       # Here's where you will add some code to rollback on failure      
 
-#   run-migrations:
-#     docker:
-#       # Docker image here that supports NodeJS
-#     steps:
-#       # Checkout code from git
-#       - run:
-#           name: Run migrations
-#           command: |
-#             # Your code here
-#             exit 1
-#       - run:
-#           name: Send migration results to memstash
-#           command: |
-#             # Your code here
-#             exit 1
+  run-migrations:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - run:
+          name: Run migrations
+          command: |
+             cd ~/project/backend
+             npm install db-migrate --save
+             npm run migrations >> dbmigr.txt
+      - run:
+          name: Send migration results to memstash
+          command: |
+            cat /home/circleci/project/backend/dbmigr.txt
+            if  cat home/circleci/project/backend/dbmigr.txt | grep -i "has been executed successfully"  ; then  curl -H "Content-Type: text/plain" -H "token: 85644424-1a95-4a36-8c11-88cab4ccea64" --request PUT --data "1" https://api.memstash.io/values/Udapeople-DB ; fi
 #      # Here's where you will add some code to rollback on failure      
 
-#   deploy-frontend:
-#     docker:
-#       # Docker image here that supports AWS CLI
-#     steps:
-#       # Checkout code from git
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # your code here
-#       - run:
-#           name: Get backend url
-#           command: |
-#             # your code here
-#             export API_URL="http://${BACKEND_IP}:3030"
-#             echo "${API_URL}"
-#       - run:
-#           name: Deploy frontend objects
-#           command: |
-#             # your code here
+  deploy-frontend:
+    docker:
+     - image: sleavely/node-awscli
+    steps:
+      - checkout
+      - run: npm install
+      - run:
+          name: Get backend url
+          command: |
+            echo ${CIRCLE_WORKFLOW_ID}
+            BACKEND_IP=$(aws ec2 describe-instances \
+            \
+                  --query 'Reservations[*].Instances[*].PublicIpAddress' \
+                  --filters "Name=tag:project,Values=udapeople" \
+                  --output text)
+
+                  echo "${BACKEND_IP}"
+
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "${API_URL}"
+            cd ~/project/frontend/
+            npm i --save
+            npm run build --save
+            ls dist              
+      - run:
+          name: Deploy frontend objects
+          command: |
+            aws s3 cp ~/project/frontend/dist  s3://udapeople-udapeople-fe-0987654321 --recursive
 #       # Here's where you will add some code to rollback on failure      
                     
 #   deploy-backend:

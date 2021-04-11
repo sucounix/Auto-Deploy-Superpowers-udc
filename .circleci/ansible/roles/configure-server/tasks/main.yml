@@ -33,7 +33,7 @@
   set_fact:
     ENVIRONMENT: 'production'
     TYPEORM_CONNECTION: 'postgres'
-    TYPEORM_ENTITIES: ''./src/modules/domain/**/*.entity.ts'
+    TYPEORM_ENTITIES: './src/modules/domain/**/*.entity.ts'
     TYPEORM_HOST: 'udapeople.cq1slp0ljg3y.us-west-2.rds.amazonaws.com'
     TYPEORM_PORT: '5432'
     TYPEORM_USERNAME: 'postgres'

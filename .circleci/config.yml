@@ -175,7 +175,7 @@ jobs:
           fingerprints: ["12:ae:74:a7:ec:34:5f:fe:ae:e2:c6:87:d4:64:8d:1b"] # You can get this ID in the section where you registered the SSH Key
       - attach_workspace:
           at: ~/
-            - project/.circleci/ansible/inventory.txt
+#            - project/.circleci/ansible/inventory.txt
       - run:
           name: Install dependencies
           command: |

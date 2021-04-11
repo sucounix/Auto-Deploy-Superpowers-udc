@@ -1,0 +1,19 @@
+- name: Creates directory
+  become: true
+  file:
+    path: /backend
+    state: directory
+
+- name: "move binary to /backend."
+  become: true
+  copy:
+    src:  ~/project/backend/dist
+    dest: /backend
+    directory_mode: yes
+    mode: '0777'
+  
+
+- name: Executing node
+  become: true
+  shell: |
+    pm2 start ~/project/backend/dist/main.js -f

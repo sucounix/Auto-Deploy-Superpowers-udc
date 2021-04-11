@@ -131,6 +131,10 @@ jobs:
       - run:
           name: Ensure back-end infrastructure exists
           command: |
+            yum -y install tar gzip            
+      - run:
+          name: Ensure back-end infrastructure exists
+          command: |
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
               --tags project=udapeople \

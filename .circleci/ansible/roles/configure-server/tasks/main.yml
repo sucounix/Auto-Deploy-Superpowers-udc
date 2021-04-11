@@ -29,7 +29,8 @@
     production: yes
     state: present
 
-- name: populate /etc/environment
+- name: "populate /etc/environment"
+  become: yes
   lineinfile:
     dest: "/etc/environment"
     state: present

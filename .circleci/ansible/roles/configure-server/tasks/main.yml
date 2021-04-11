@@ -29,20 +29,8 @@
     production: yes
     state: present
 
- - name: "populate /etc/environment"
-   become: yes
-   environment:
-      TYPEORM_CONNECTION: "{{ lookup('env','TYPEORM_CONNECTION') }}"
-      TYPEORM_HOST: "{{ lookup('env','TYPEORM_HOST') }}"
-      TYPEORM_USERNAME: "{{ lookup('env','TYPEORM_USERNAME') }}"
-      TYPEORM_PASSWORD: "{{ lookup('env','TYPEORM_PASSWORD') }}"
-      TYPEORM_DATABASE: "{{ lookup('env','TYPEORM_DATABASE') }}"
-      TYPEORM_MIGRATIONS: "{{ lookup('env','TYPEORM_MIGRATIONS') }}"
-      TYPEORM_ENTITIES: "{{ lookup('env','TYPEORM_ENTITIES') }}"
-
-
-
-
+#  - name: "populate /etc/environment"
+#    become: yes
 #   lineinfile:
 #     dest: "/etc/environment"
 #     state: present

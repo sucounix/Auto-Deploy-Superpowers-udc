@@ -129,7 +129,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Ensure back-end infrastructure exists
+          name: yum -y install tar gzip 
           command: |
             yum -y install tar gzip            
       - run:
@@ -175,7 +175,7 @@ jobs:
           fingerprints: ["12:ae:74:a7:ec:34:5f:fe:ae:e2:c6:87:d4:64:8d:1b"] # You can get this ID in the section where you registered the SSH Key
       - attach_workspace:
           at: ~/
-            - .circleci/ansible/inventory.txt
+            - project/.circleci/ansible/inventory.txt
       - run:
           name: Install dependencies
           command: |
@@ -183,9 +183,9 @@ jobs:
       - run:
           name: Configure server
           command: |
+            cat ~/project/.circleci/ansible/inventory.txt
             cd ~/project/.circleci/ansible/ 
             ansible-playbook -i inventory.txt configure-server.yml -vvv
-            cat ~/project/.circleci/ansible/inventory.txt
 #             exit 1
 #       # Here's where you will add some code to rollback on failure      
 

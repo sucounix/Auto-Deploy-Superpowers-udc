@@ -285,7 +285,7 @@ jobs:
             ansible-playbook -i inventory.txt deploy-backend.yml -vvv
 smoke-test:
     - image: python:3.7-alpine3.11
-    steps:
+     steps:
       - checkout
       - run:
           name: Install dependencies

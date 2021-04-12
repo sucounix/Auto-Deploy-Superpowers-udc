@@ -1,14 +1,14 @@
 - name: Creates directory
   become: true
   file:
-    path: /home/ubuntu/backend
+    path: /home/ubuntu/
     state: directory
 
 - name: "move binary to /backend."
   become: true
   copy:
-    src:  /root/project/backend
-    dest: /home/ubuntu/backend
+    src:  /root/project/app.tar.gz
+    dest: /home/ubuntu/
     directory_mode: yes
     mode: '0777'
   

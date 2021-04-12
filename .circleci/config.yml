@@ -264,9 +264,6 @@ jobs:
           command: |
             echo ${CIRCLE_WORKFLOW_ID}
             cd ~/project/backend
-            npm i --save
-            npm run build --save
-            ls dist
             cd ~/project 
             echo ENVIRONMENT=production >> "backend/dist .env"
             echo TYPEORM_CONNECTION=postgres >> "backend/dist .env"
@@ -278,7 +275,12 @@ jobs:
             echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> "backend/dist .env"
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> "backend/dist .env"
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/dist .env" 
-            tar -czvf ~/project/backend/app.tar.gz ~/project/backend/dist/*
+            cd ~/project/backend/
+            npm i --save
+            npm run build --save
+            ls dist
+
+            tar -czvf ~/project/app.tar.gz /backend
       - run:
            name: Deploy backend
            command: |

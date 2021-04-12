@@ -12,11 +12,11 @@
 #    directory_mode: yes
 #    mode: '0777'
   
-# - name: "Unpack app.tar.gz files"
-#   become: true
-#   shell: |
-#     cd /backend
-#     tar xzvf app.tar.gz
+ - name: "Unpack app.tar.gz files"
+   become: true
+   shell: |
+     cd /backend
+     tar xzvf app.tar.gz
 #     rm app.tar.gz
 #     ls
 

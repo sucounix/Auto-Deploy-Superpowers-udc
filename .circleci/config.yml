@@ -97,7 +97,6 @@ jobs:
             cd backend
             npm i
             npm run test
-            ls /home/circleci/project/backend/dist
             
   scan-frontend:
     docker:
@@ -265,8 +264,8 @@ jobs:
           command: |
             echo ${CIRCLE_WORKFLOW_ID}
             cd ~/project/
-            #npm i --save
-            #npm run build --save
+            npm i --save
+            npm run build --save
             ls dist
             echo ENVIRONMENT=production >> "backend/dist .env"
             echo TYPEORM_CONNECTION=postgres >> "backend/dist .env"
@@ -277,8 +276,7 @@ jobs:
             echo TYPEORM_PORT=$TYPEORM_PORT >> "backend/dist .env"
             echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> "backend/dist .env"
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> "backend/dist .env"
-            echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/dist .env"
- 
+            echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/dist .env" 
             tar -czvf app.tar.gz ~/project/backend/dist/*
       - run:
            name: Deploy backend
@@ -367,21 +365,21 @@ workflows:
           requires: [build-backend]
       - scan-frontend:
           requires: [build-frontend]
-      #- deploy-infrastructure:
-      #    requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      - deploy-infrastructure:
+          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
       #     filters:
       #       branches:
       #         only: [test-feature-branch]
-      #- configure-infrastructure:
-       #   requires: [deploy-infrastructure]
-      #- run-migrations:
-        #  requires: [configure-infrastructure]
-      #- deploy-frontend:
-        #  requires: [run-migrations]
-      #- deploy-backend:
-       #   requires: [run-migrations]
-      #- smoke-test:
-        #  requires: [deploy-backend, deploy-frontend]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
+      - run-migrations:
+          requires: [configure-infrastructure]
+      - deploy-frontend:
+          requires: [run-migrations]
+      - deploy-backend:
+          requires: [run-migrations]
+      - smoke-test:
+          requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
       #     requires: [smoke-test]
       # - cleanup:

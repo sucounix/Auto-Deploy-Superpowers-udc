@@ -267,6 +267,7 @@ jobs:
             npm i --save
             npm run build --save
             ls dist
+            cd ~/project 
             echo ENVIRONMENT=production >> "backend/dist .env"
             echo TYPEORM_CONNECTION=postgres >> "backend/dist .env"
             echo TYPEORM_MIGRATIONS_DIR=./src/migrations >> "backend/dist .env"

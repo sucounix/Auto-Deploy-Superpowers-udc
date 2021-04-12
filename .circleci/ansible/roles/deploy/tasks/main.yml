@@ -9,8 +9,8 @@
   copy:
     src:  /root/project/app.tar.gz
     dest: /home/ubuntu/
-    directory_mode: yes
-    mode: '0777'
+#    directory_mode: yes
+#    mode: '0777'
   
 # - name: "Unpack app.tar.gz files"
 #   become: true

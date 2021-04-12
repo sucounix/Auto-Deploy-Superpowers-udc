@@ -273,12 +273,13 @@ jobs:
             echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> "backend/.env"
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> "backend/.env"
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/.env"
+            cat backend/.env
             cd ~/project/backend/
             npm i --save
             npm run build --save
             ls dist
             cd ..
-            tar -czvf ~/project/app.tar.gz ./backend
+            tar -czvf ~/project/app.tar.gz backend/*
       - run:
            name: Deploy backend
            command: |

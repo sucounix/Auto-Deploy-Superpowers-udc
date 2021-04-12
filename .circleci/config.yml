@@ -240,25 +240,42 @@ jobs:
     - image: python:3.7-alpine3.11
     steps:
       - checkout
+      - restore_cache:
+          keys: [backend-build]
+
       - add_ssh_keys:
           fingerprints: ["12:ae:74:a7:ec:34:5f:fe:ae:e2:c6:87:d4:64:8d:1b"] # You can get this ID in the section where you registered the SSH Key
       - attach_workspace:
           at: ~/
           #  - project/backend/dist
-          #  - .circleci/ansible/inventory.txt
+           - .circleci/ansible/
       - run:
            name: Install dependencies
            command: |
-            apk add tar gzip npm
+            apk add tar gzip npm openssh-client nodejs curl
             apk add --update ansible
+            pip install awscli
+
       - run:
           name: compile BE
           command: |
             echo ${CIRCLE_WORKFLOW_ID}
-            cd ~/project/backend
-            npm i --save
-            npm run build --save
+            cd ~/project/
+#            npm i --save
+#            npm run build --save
             ls dist
+            echo ENVIRONMENT=production >> "backend/dist .env"
+            echo TYPEORM_CONNECTION=postgres >> "backend/dist .env"
+            echo TYPEORM_MIGRATIONS_DIR=./src/migrations >> "backend/dist .env"
+            echo TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts >> "backend/dist .env"
+            echo TYPEORM_MIGRATIONS=./src/migrations/*.ts >> "backend/dist .env"
+            echo TYPEORM_HOST=$TYPEORM_HOST >> "backend/dist .env"
+            echo TYPEORM_PORT=$TYPEORM_PORT >> "backend/dist .env"
+            echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> "backend/dist .env"
+            echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> "backend/dist .env"
+            echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/dist .env"
+ 
+            tar -czvf app.tar.gz ~/project/backend/dist/*
       - run:
            name: Deploy backend
            command: |
@@ -266,23 +283,36 @@ jobs:
             cd ~/project/.circleci/ansible/
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml -vvv
-#   deploy-backend:
-#     docker:
-#       # Docker image here that supports Ansible
-#     steps:
-#       # Checkout code from git
-#       # Add ssh keys with fingerprint
-#       # attach workspace
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # your code here
-#       - run:
-#           name: Deploy backend
-#           command: |
-#             # your code here
-#       # Here's where you will add some code to rollback on failure  
-
+smoke-test:
+    - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update curl
+            pip install awscli
+      - run:
+          name: Get Backend URL and performe smoke test.
+          command: |
+            BACKEND_IP=$(aws ec2 describe-instances \
+            \
+                  --query 'Reservations[*].Instances[*].PublicIpAddress' \
+                  --filters "Name=tag:project,Values=udapeople" \
+                  --output text)        
+                  echo ${BACKEND_IP}
+            curl "http://${BACKEND_IP}:3030/api/status"
+      - run:
+          name: Frontend smoke test.
+          command: |
+            URL="http://udapeople-udapeople-fe-0987654321.s3-website-us-west-2.amazonaws.com/#/employees"
+            echo ${URL}
+            if curl -s ${URL} | grep "Welcome"
+            then
+              return 0
+            else
+              return 1
+            fi
 #   smoke-test:
 #     docker:
 #       # Lightweight Docker image 

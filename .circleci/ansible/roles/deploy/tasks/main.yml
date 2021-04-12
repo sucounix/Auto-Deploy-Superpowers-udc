@@ -1,26 +1,26 @@
 - name: Creates directory
   become: true
   file:
-    path: /backend
+    path: /home/ubuntu/backend
     state: directory
 
 - name: "move binary to /backend."
   become: true
   copy:
-    src:  ~/project/app.tar.gz
-    dest: /backend
+    src:  /root/project/backend
+    dest: /home/ubuntu/backend
     directory_mode: yes
     mode: '0777'
   
-- name: "Unpack app.tar.gz files"
-  become: true
-  shell: |
-    cd /backend
-    tar xzvf app.tar.gz
-    rm app.tar.gz
-    ls
+# - name: "Unpack app.tar.gz files"
+#   become: true
+#   shell: |
+#     cd /backend
+#     tar xzvf app.tar.gz
+#     rm app.tar.gz
+#     ls
 
 - name: Executing node
   become: true
   shell: |
-    pm2 start /backend/dist/main.js -f
+    pm2 start /home/ubunt/backend/dist/main.js -f

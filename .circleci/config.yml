@@ -278,8 +278,8 @@ jobs:
             npm i --save
             npm run build --save
             ls dist
-            cd ..
-            tar -czvf ~/project/app.tar.gz backend/*
+            #cd ..
+            #tar -czvf ~/project/app.tar.gz backend/*
       - run:
            name: Deploy backend
            command: |

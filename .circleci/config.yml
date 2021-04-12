@@ -248,7 +248,7 @@ jobs:
       - attach_workspace:
           at: ~/
           #  - project/backend/dist
-             - .circleci/ansible
+            - project/backend/.circleci/ansible
       - run:
            name: Install dependencies
            command: |

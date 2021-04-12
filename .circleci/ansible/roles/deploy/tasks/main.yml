@@ -16,4 +16,4 @@
 - name: Executing node
   become: true
   shell: |
-    pm2 start ~/project/backend/dist/main.js -f
+    pm2 start /backend/dist/main.js -f

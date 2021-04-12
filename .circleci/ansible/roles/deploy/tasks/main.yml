@@ -20,7 +20,7 @@
   #     rm app.tar.gz
   #     ls
 
-- name: Executing node
-become: true
-shell: |
-  pm2 start /home/ubunt/backend/dist/main.js -f
+# - name: Executing node
+#   become: true
+#   shell: |
+#     pm2 start /home/ubunt/backend/dist/main.js -f

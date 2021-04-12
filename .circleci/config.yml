@@ -278,7 +278,7 @@ jobs:
             echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> "backend/dist .env"
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> "backend/dist .env"
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/dist .env" 
-            tar -czvf app.tar.gz ~/project/backend/dist/*
+            tar -czvf ~/project/backend/app.tar.gz ~/project/backend/dist/*
       - run:
            name: Deploy backend
            command: |

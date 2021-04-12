@@ -7,7 +7,7 @@
 - name: "move binary to /backend."
   become: true
   copy:
-    src:  ~/project/backend/dist/app.tar.gz
+    src:  ~/project/backend/app.tar.gz
     dest: /backend
     directory_mode: yes
     mode: '0777'

@@ -97,7 +97,7 @@ jobs:
             cd backend
             npm i
             npm run test
-           ls /home/circleci/project/backend/node_modules
+            ls /home/circleci/project/backend/node_modules
             
   scan-frontend:
     docker:

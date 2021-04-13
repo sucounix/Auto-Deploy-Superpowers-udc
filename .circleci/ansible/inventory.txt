@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-[all]
-=======
-[all]
->>>>>>> 066daad5a5f99306aaf4b84a87fed61319a53bd6
+[web]

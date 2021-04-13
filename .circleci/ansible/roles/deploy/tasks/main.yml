@@ -1,8 +1,8 @@
-- name: Creates directory
-  become: true
-  file:
-    path: /home/ubuntu/
-    state: directory
+# - name: Creates directory
+#   become: true
+#   file:
+#     path: /home/ubuntu/
+#     state: directory
 
 - name: "move binary to /backend."
   become: true
@@ -19,6 +19,11 @@
     tar xzvf app.tar.gz
   #     rm app.tar.gz
   #     ls
+- name: "move .env to /backend."
+  become: true
+  copy:
+    src:  /root/project/backend/.env
+    dest: /home/ubuntu/backend
 
 # - name: Executing node
 #   become: true

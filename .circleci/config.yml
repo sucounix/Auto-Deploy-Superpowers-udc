@@ -277,8 +277,6 @@ jobs:
           name: compile BE
           command: |
             echo ${CIRCLE_WORKFLOW_ID}
-            cd backend
-            touch .env
             echo ENVIRONMENT=production > ".env"
             echo NODE_ENV=production >> ".env"
             echo TYPEORM_CONNECTION=postgres >> ".env"

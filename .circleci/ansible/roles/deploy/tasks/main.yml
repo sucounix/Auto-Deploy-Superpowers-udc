@@ -1,9 +1,3 @@
-# - name: Creates directory
-#   become: true
-#   file:
-#     path: /home/ubuntu/
-#     state: directory
-
 - name: "move binary to /backend."
   become: true
   copy:
@@ -17,8 +11,8 @@
   shell: |
     cd /home/ubuntu/
     tar xzvf app.tar.gz
-  #     rm app.tar.gz
-  #     ls
+    rm app.tar.gz
+    
 - name: "move .env to /backend."
   become: true
   copy:

@@ -147,7 +147,7 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
-              --tags project=udapeople \
+              --tags project="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
               --stack-name "udapeople-be-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="udapeople-be-${CIRCLE_WORKFLOW_ID:0:7}"  
 #              exit 1
@@ -156,7 +156,7 @@ jobs:
           command: |
             aws cloudformation deploy \
                --template-file .circleci/files/frontend.yml \
-               --tags project=udapeople \
+               --tags project="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
                --stack-name "udapeople-fe-${CIRCLE_WORKFLOW_ID:0:7}" \
                --parameter-overrides ID="fe-${CIRCLE_WORKFLOW_ID:0:7}"  
 #              exit 1
@@ -166,7 +166,7 @@ jobs:
             aws ec2 describe-instances \
             \
                   --query 'Reservations[*].Instances[*].PublicIpAddress' \
-                  --filters "Name=tag:project,Values=udapeople" \
+                  --filters "Name=tag:project,Values="udapeople-${CIRCLE_WORKFLOW_ID:0:7}"" \
                   --output text >> .circleci/ansible/inventory.txt
                   cat  .circleci/ansible/inventory.txt
 #            exit 1
@@ -246,7 +246,7 @@ jobs:
             BACKEND_IP=$(aws ec2 describe-instances \
             \
                   --query 'Reservations[*].Instances[*].PublicIpAddress' \
-                  --filters "Name=tag:project,Values=udapeople" \
+                  --filters "Name=tag:project,Values="udapeople-${CIRCLE_WORKFLOW_ID:0:7}"" \
                   --output text)
 
                   echo "${BACKEND_IP}"
@@ -328,7 +328,7 @@ jobs:
               BACKEND_IP=$(aws ec2 describe-instances \
               \
                     --query 'Reservations[*].Instances[*].PublicIpAddress' \
-                    --filters "Name=tag:project,Values=udapeople" \
+                    --filters "Name=tag:project,Values="udapeople-${CIRCLE_WORKFLOW_ID:0:7}"" \
                     --output text)        
                     echo ${BACKEND_IP}
               curl "http://${BACKEND_IP}:3030/api/status"

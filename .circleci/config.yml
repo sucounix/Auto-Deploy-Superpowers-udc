@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  slack: ccircleci/slack@4.4.0
+  slack: circleci/slack@4.4.0
 
 commands:
   destroy-environment:
@@ -63,6 +63,7 @@ jobs:
       - image: 'cimg/base:stable'
     steps:
       - slack/notify:
+          channel: "super-power"
           custom: |
             {
               "blocks": [

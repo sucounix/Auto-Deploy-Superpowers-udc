@@ -98,7 +98,7 @@ jobs:
             paths: [frontend/node_modules]
             key: frontend-build
         - slack/notify:
-            channel: ABCXYZ
+            channel: super-power
             event: pass
             template: basic_fail_1    
 

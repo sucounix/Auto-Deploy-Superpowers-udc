@@ -411,7 +411,7 @@ jobs:
       #         aws cloudformation delete-stack \
       #           --stack-name "udapeople-be-${OldWorkflowID}"
       #       fi
-      #  - slack/notify:
+      - slack/notify:
           channel: super-power
           event: pass
           template: success_tagged_deploy_1

@@ -399,6 +399,11 @@ jobs:
                 aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
                 aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
               fi
+       - slack/notify:
+           channel: super-power
+           event: pass
+           template: success_tagged_deploy_1
+      
 
       #  - run:
       #      name: Remove old stacks and files
@@ -411,10 +416,6 @@ jobs:
       #         aws cloudformation delete-stack \
       #           --stack-name "udapeople-be-${OldWorkflowID}"
       #       fi
-      - slack/notify:
-          channel: super-power
-          event: pass
-          template: success_tagged_deploy_1
       
                   
 workflows:

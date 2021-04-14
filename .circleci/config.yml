@@ -58,7 +58,11 @@ jobs:
         - slack/notify:
             channel: super-power
             event: pass
-            template: basic_pass_1    
+            template: basic_pass_1 
+        - slack/notify:
+            channel: super-power
+            event: fail
+            template: basic_fail_1             
 
   build-backend:
     docker:

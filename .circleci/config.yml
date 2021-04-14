@@ -36,50 +36,8 @@ commands:
                npm install
                npm run migrations:revert
             fi
-  # notify:
-  #   steps:
-  #     - slack/notify:
-  #         channel: "super-power"
-  #         custom: |
-  #                   {
-  #                     "blocks": [
-  #                       {
-  #                         "type": "section",
-  #                         "fields": [
-  #                           {
-  #                             "type": "plain_text",
-  #                             "text": "*Bulid fail*",
-  #                             "emoji": true
-  #                           }
-  #                         ]
-  #                       }
-  #                     ]
-  #                   }
-  #         event: on_fail    
           
 jobs:
-  # notify:
-  #   docker:
-  #     - image: 'cimg/base:stable'
-  #   steps:
-  #     - slack/notify:
-  #         channel: "super-power"
-  #         custom: |
-  #           {
-  #             "blocks": [
-  #               {
-  #                 "type": "section",
-  #                 "fields": [
-  #                   {
-  #                     "type": "plain_text",
-  #                     "text": "*This is a text notification*",
-  #                     "emoji": true
-  #                   }
-  #                 ]
-  #               }
-  #             ]
-  #           }
-  #         event: always
      
   build-frontend:
       docker:
@@ -100,7 +58,7 @@ jobs:
         - slack/notify:
             channel: super-power
             event: pass
-            template: basic_fail_1    
+            template: basic_pass_1    
 
   build-backend:
     docker:

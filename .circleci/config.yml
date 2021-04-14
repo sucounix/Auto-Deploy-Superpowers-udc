@@ -252,7 +252,7 @@ jobs:
       - run:
           name: Deploy frontend objects
           command: |
-            aws s3 cp ~/project/frontend/dist  s3://udapeople-udapeople-fe-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+            aws s3 cp ~/project/frontend/dist  s3://udapeople-fe-${CIRCLE_WORKFLOW_ID:0:7} --recursive
 
       - revert-migrations
       - destroy-environment
@@ -327,7 +327,7 @@ jobs:
         - run:
             name: Frontend smoke test.
             command: |
-              URL="http://udapeople-udapeople-fe-0987654321.s3-website-us-west-2.amazonaws.com/#/employees"
+              URL="http://udapeople-fe-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-west-2.amazonaws.com/#/employees"
               echo ${URL}
               if curl -s ${URL} | grep "Welcome"
               then

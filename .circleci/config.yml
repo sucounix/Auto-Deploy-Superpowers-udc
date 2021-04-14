@@ -97,7 +97,6 @@ jobs:
         - save_cache:
             paths: [frontend/node_modules]
             key: frontend-build
-        - notify
 
   build-backend:
     docker:
@@ -115,7 +114,6 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
-      - notify
 
   test-frontend:
     docker:
@@ -130,7 +128,6 @@ jobs:
             cd frontend
             npm i
             npm run test
-      - notify
 
   test-backend:
     docker:
@@ -145,7 +142,6 @@ jobs:
             cd backend
             npm i
             npm run test
-      - notify
             
   scan-frontend:
     docker:
@@ -160,7 +156,6 @@ jobs:
             cd frontend
             npm i
             npm audit --audit-level=critical --force
-      - notify
 
   scan-backend:
     docker:
@@ -175,7 +170,6 @@ jobs:
             cd backend
             npm i
             npm audit fix --audit-level=critical --force
-      - notify
 
   deploy-infrastructure:
     docker:
@@ -219,7 +213,6 @@ jobs:
           paths:
             - project/.circleci/ansible/inventory.txt
       - destroy-environment
-      - notify
 
   configure-infrastructure:
     docker:
@@ -243,7 +236,6 @@ jobs:
             ansible-playbook -i inventory.txt configure-server.yml -vvv
 #             exit 1
       - destroy-environment
-      - notify
 
   run-migrations:
     docker:
@@ -278,7 +270,6 @@ jobs:
 
       - revert-migrations
       - destroy-environment
-      - notify
 
   deploy-frontend:
     docker:

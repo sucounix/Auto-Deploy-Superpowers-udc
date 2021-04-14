@@ -301,7 +301,6 @@ jobs:
 
       - revert-migrations
       - destroy-environment
-      - notify
 
   deploy-backend:
     docker:

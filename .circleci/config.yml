@@ -383,7 +383,6 @@ jobs:
               fi
         - revert-migrations
         - destroy-environment
-        - notify
 
 
   cloudfront-update:

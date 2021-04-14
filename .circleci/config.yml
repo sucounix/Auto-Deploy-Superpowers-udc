@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  slack: circleci/slack@4.3.1
+  slack: ccircleci/slack@4.4.0
 
 commands:
   destroy-environment:
@@ -36,28 +36,49 @@ commands:
                npm install
                npm run migrations:revert
             fi
-  notify:
-    steps:
-      - slack/notify:
-          channel: "super-power"
-          custom: |
-                    {
-                      "blocks": [
-                        {
-                          "type": "section",
-                          "fields": [
-                            {
-                              "type": "plain_text",
-                              "text": "*Bulid fail*",
-                              "emoji": true
-                            }
-                          ]
-                        }
-                      ]
-                    }
-          event: on_fail    
+  # notify:
+  #   steps:
+  #     - slack/notify:
+  #         channel: "super-power"
+  #         custom: |
+  #                   {
+  #                     "blocks": [
+  #                       {
+  #                         "type": "section",
+  #                         "fields": [
+  #                           {
+  #                             "type": "plain_text",
+  #                             "text": "*Bulid fail*",
+  #                             "emoji": true
+  #                           }
+  #                         ]
+  #                       }
+  #                     ]
+  #                   }
+  #         event: on_fail    
           
 jobs:
+  notify:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - slack/notify:
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "plain_text",
+                      "text": "*This is a text notification*",
+                      "emoji": true
+                    }
+                  ]
+                }
+              ]
+            }
+          event: always
      
   build-frontend:
       docker:
@@ -75,6 +96,7 @@ jobs:
         - save_cache:
             paths: [frontend/node_modules]
             key: frontend-build
+        - notify
 
   build-backend:
     docker:
@@ -92,6 +114,7 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
+      - notify
 
   test-frontend:
     docker:
@@ -106,7 +129,8 @@ jobs:
             cd frontend
             npm i
             npm run test
-                
+      - notify
+
   test-backend:
     docker:
       - image: circleci/node:13.8.0
@@ -120,6 +144,7 @@ jobs:
             cd backend
             npm i
             npm run test
+      - notify
             
   scan-frontend:
     docker:
@@ -134,6 +159,7 @@ jobs:
             cd frontend
             npm i
             npm audit --audit-level=critical --force
+      - notify
 
   scan-backend:
     docker:
@@ -148,6 +174,7 @@ jobs:
             cd backend
             npm i
             npm audit fix --audit-level=critical --force
+      - notify
 
   deploy-infrastructure:
     docker:
@@ -191,6 +218,7 @@ jobs:
           paths:
             - project/.circleci/ansible/inventory.txt
       - destroy-environment
+      - notify
 
   configure-infrastructure:
     docker:
@@ -214,6 +242,7 @@ jobs:
             ansible-playbook -i inventory.txt configure-server.yml -vvv
 #             exit 1
       - destroy-environment
+      - notify
 
   run-migrations:
     docker:
@@ -248,6 +277,7 @@ jobs:
 
       - revert-migrations
       - destroy-environment
+      - notify
 
   deploy-frontend:
     docker:
@@ -279,6 +309,8 @@ jobs:
 
       - revert-migrations
       - destroy-environment
+      - notify
+
   deploy-backend:
     docker:
     - image: python:3.7-alpine3.11
@@ -360,6 +392,8 @@ jobs:
               fi
         - revert-migrations
         - destroy-environment
+        - notify
+
 
   cloudfront-update:
     docker:
@@ -386,6 +420,9 @@ jobs:
       #     paths:
       #       - project/.circleci/oldworkflowid.txt
       - destroy-environment
+      - slack/notify:
+         event: pass
+         template: success_tagged_deploy_1
 
   cleanup:
       docker:
@@ -418,7 +455,8 @@ jobs:
 workflows:
   send-notification:
     jobs:
-      - notify
+      - notify:
+          context: slack-secrets
   default:
     jobs:
        - build-frontend

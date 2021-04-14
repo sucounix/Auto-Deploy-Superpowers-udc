@@ -443,4 +443,4 @@ workflows:
            requires: [smoke-test]
        - cleanup:
            requires: [cloudfront-update]
-            context: slack-secrets
+           context: slack-secrets

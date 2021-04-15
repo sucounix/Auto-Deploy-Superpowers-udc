@@ -1,0 +1,9 @@
+1-   https://github.com/sucounix/Auto-Deploy-Superpowers-udc
+2-   http://udapeople-fe-e9d549e.s3-website-us-west-2.amazonaws.com/
+3-   http://34.221.103.194:3030/api/status
+4-   http://ec2-34-217-117-117.us-west-2.compute.amazonaws.com:9090/graph
+5-   http://d1117x3m7d00rp.cloudfront.net
+
+
+
+

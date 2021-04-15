@@ -6,7 +6,7 @@
 
 4-   http://ec2-34-211-37-0.us-west-2.compute.amazonaws.com:9090/graph
 
-5-   d2rjedjjn57ki7.cloudfront.net
+5-   http://d2rjedjjn57ki7.cloudfront.net/#/employees
 
 
 

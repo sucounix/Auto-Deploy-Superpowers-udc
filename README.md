@@ -59,6 +59,7 @@ Before you submit your project, please check your work against the project rubri
 [License](LICENSE.md)
 
 # POC
+![Screenshot](udapeople-pipeline.png)
 ![Screenshot](SCREENSHOT01.png)
 ![Screenshot](SCREENSHOT02.png)
 ![Screenshot](SCREENSHOT03.png)
@@ -69,8 +70,11 @@ Before you submit your project, please check your work against the project rubri
 ![Screenshot](SCREENSHOT08.png)
 ![Screenshot](SCREENSHOT09.png)
 ![Screenshot](SCREENSHOT10.png)
-![Screenshot]('SCREENSHOT11 (disk).png')
+![Screenshot](SCREENSHOT11(CPU).png)
+![Screenshot](SCREENSHOT11(disk).png)
 ![Screenshot](SCREENSHOT11(Mem).png)
+![Screenshot](SCREENSHOT12(alert).png)
+
 
 ```
 1-   https://github.com/sucounix/Auto-Deploy-Superpowers-udc
